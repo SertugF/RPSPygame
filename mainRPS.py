@@ -1,3 +1,5 @@
+#example https://9gag.com/gag/ap92GVn#comment
+
 # main class for pygame RPS
 import pygame, sys, random
 
@@ -19,8 +21,8 @@ paperPlayerRect = paperPlayer.get_rect() # get the rect of the image
 paperPlayerRect.center = (250, 200) # set the center of the rect to 250x200 (center of the screen)
 paperPlayerRect.x = 0 # set the x position of the rect to 0
 paperPlayerRect.y = 0 # set the y position of the rect to 0
-paperPlayerRect.width = 200 # set the width of the rect to 200
-paperPlayerRect.height = 200 # set the height of the rect to 200
+paperPlayerRect.width = 50 # set the width of the rect to 200
+paperPlayerRect.height = 50 # set the height of the rect to 200
 
 
 # rock player
@@ -29,13 +31,19 @@ rockPlayer = pygame.image.load('rock.png')
 # scissors player
 scissorsPlayer = pygame.image.load('scissors.png')
 
+# generate random starting coordinates for the player
+def randomStart(): #depre
+    x = random.randint(20, 450)
+    y = random.randint(20, 350)
+    return x, y
+
 # generate array of random starting coordinates for the players
-def randomStartArray():
+def randomStartArray(): #deprecated
     x = []
     y = []
     for i in range(10):
-        x.append(random.randint(0, 500))
-        y.append(random.randint(0, 400))
+        x.append(random.randint(20, 450))
+        y.append(random.randint(20, 350))
     return x, y
 
 # a function which takes array of x,y values and checks if they are too close to each other
@@ -48,23 +56,42 @@ def checkDistance(x, y):
                         return False
     return True
 
-# check if players are out of screen bounds
+# check if players are out of screen bounds include player size
 def checkBounds(x, y):
     for i in range(len(x)):
-        if x[i] < 0 or x[i] > 500:
+        if x[i] < 0 or x[i] > 450:
             return False
-        if y[i] < 0 or y[i] > 400:
+        if y[i] < 0 or y[i] > 350:
             return False
     return True
 
 # function which gets random starting coordinates for the players then checks if they are too close to each 
 # other or out of screen it calls itself again
-def getStartCoords():
+def getStartCoords(): #deprecated
     x, y = randomStartArray()
     if checkDistance(x, y) and checkBounds(x, y):
         return x, y
-    else:
-        return getStartCoords()
+    else: # recreate x,y pair for array
+        return getStartCoords() #breaks cause of recursion limit
+
+# function which creates random starting coordinates for a player then checks if they are too close to each or out of screen  
+# this function is used to get the starting coordinates for the player. İf succesful it adds the coordinates to an array
+def getStartCoords2(playerCount):
+    x = []
+    y = []
+    
+    succesfullCoords = 0
+    while succesfullCoords < playerCount:
+        xTemp, yTemp = randomStart()
+        if checkDistance(x, y) and checkBounds(x, y):
+            x.append(xTemp)
+            y.append(yTemp)
+            succesfullCoords += 1
+        else:
+            continue
+    return x, y
+
+
   
 
 def PlayerPaper(x,y):
@@ -91,9 +118,11 @@ while running:
     windowSurface.fill((192, 192, 192)) # fill the window with a color
     #--------------------------------------------------------------------
     # draw the player
-    #for every elemtn in getStartCoords() draw a player
-    for i in range(len(getStartCoords()[0])):
-        PlayerPaper(getStartCoords()[0][i], getStartCoords()[1][i])
+    arrStartCoords = getStartCoords2(2)
+    #for every element in getStartCoords() draw a player
+    for i in range(len(arrStartCoords)):
+        PlayerPaper(arrStartCoords[i][0], arrStartCoords[i][1])
+
 
     
 
@@ -102,8 +131,13 @@ while running:
   
 
     # draw the window onto the screen
-    pygame.display.update() 
-
+    pygame.display.update()
+    
+    pygame.display.flip()
+    
+   
+    
+ 
 # set up the colors
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
