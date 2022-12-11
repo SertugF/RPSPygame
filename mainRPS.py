@@ -27,9 +27,25 @@ paperPlayerRect.height = 50 # set the height of the rect to 200
 
 # rock player
 rockPlayer = pygame.image.load('rock.png')
+rockPlayer = pygame.transform.scale(rockPlayer, (50, 50)) # scale the image to 200x200
+rockPlayerRect = rockPlayer.get_rect() # get the rect of the image
+rockPlayerRect.center = (250, 200) # set the center of the rect to 250x200 (center of the screen)
+rockPlayerRect.x = 0 # set the x position of the rect to 0
+rockPlayerRect.y = 0 # set the y position of the rect to 0
+rockPlayerRect.width = 50 # set the width of the rect to 200
+rockPlayerRect.height = 50 # set the height of the rect to 200
+
 
 # scissors player
 scissorsPlayer = pygame.image.load('scissors.png')
+scissorsPlayer = pygame.transform.scale(scissorsPlayer, (50, 50)) # scale the image to 200x200
+scissorsPlayerRect = scissorsPlayer.get_rect() # get the rect of the image
+scissorsPlayerRect.center = (250, 200) # set the center of the rect to 250x200 (center of the screen)
+scissorsPlayerRect.x = 0 # set the x position of the rect to 0
+scissorsPlayerRect.y = 0 # set the y position of the rect to 0
+scissorsPlayerRect.width = 50 # set the width of the rect to 200
+scissorsPlayerRect.height = 50 # set the height of the rect to 200
+
 
 # generate random starting coordinates for the player
 def randomStart(): #depre
@@ -98,7 +114,13 @@ def PlayerPaper(x,y):
     windowSurface.blit(paperPlayer, (x, y)) # draw the image to the screen at 0x0
     pygame.display.update() # update the screen
 
+def PlayerRock(x,y):
+    windowSurface.blit(rockPlayer, (x, y)) # draw the image to the screen at 0x0
+    pygame.display.update() # update the screen
 
+def PlayerScissors(x,y):
+    windowSurface.blit(scissorsPlayer, (x, y)) # draw the image to the screen at 0x0
+    pygame.display.update() # update the screen
 
 # is the screen running?
 running = True
@@ -118,10 +140,17 @@ while running:
     windowSurface.fill((192, 192, 192)) # fill the window with a color
     #--------------------------------------------------------------------
     # draw the player
-    arrStartCoords = getStartCoords2(2)
+    arrStartCoordsPaper = getStartCoords2(2)
+    arrStartCoordsRock = getStartCoords2(2)
+    arrStartCoordsScissors = getStartCoords2(2)
+    #--------------------------------------------------------------------
     #for every element in getStartCoords() draw a player
-    for i in range(len(arrStartCoords)):
-        PlayerPaper(arrStartCoords[i][0], arrStartCoords[i][1])
+    for i in range(len(arrStartCoordsPaper)):
+        PlayerPaper(arrStartCoordsPaper[i][0], arrStartCoordsPaper[i][1])
+    for i in range(len(arrStartCoordsRock)):
+        PlayerRock(arrStartCoordsRock[i][0], arrStartCoordsRock[i][1])
+    for i in range(len(arrStartCoordsScissors)):
+        PlayerScissors(arrStartCoordsScissors[i][0], arrStartCoordsScissors[i][1])
 
 
     
