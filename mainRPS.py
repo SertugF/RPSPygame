@@ -125,6 +125,14 @@ def PlayerScissors(x,y):
 # is the screen running?
 running = True
 
+#checks distance between to players
+def checkDistancePlayer(Player1, Player2):
+    if Player1.x - Player2.x < 50 and Player1.x - Player2.x > -50:
+        if Player1.y - Player2.y < 50 and Player1.y - Player2.y > -50:
+            return True
+    return False
+   
+
 #game loop
 while running:
     # check for events
@@ -151,6 +159,15 @@ while running:
         PlayerRock(arrStartCoordsRock[i][0], arrStartCoordsRock[i][1])
     for i in range(len(arrStartCoordsScissors)):
         PlayerScissors(arrStartCoordsScissors[i][0], arrStartCoordsScissors[i][1])
+
+    if checkDistancePlayer(paperPlayerRect, rockPlayerRect):
+        print("collision")
+    #--------------------------------------------------------------------
+    if checkDistancePlayer(paperPlayerRect, scissorsPlayerRect):
+        print("collision")
+    #--------------------------------------------------------------------
+    if checkDistancePlayer(rockPlayerRect, scissorsPlayerRect):
+        print("collision")
 
 
     
